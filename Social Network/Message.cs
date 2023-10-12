@@ -35,6 +35,11 @@ public class User
             friend.Messages.Add(message);
             Messages.Add(message);
         }
+        else
+        {
+            Messages.Add(new Message(null,DateTime.Now,null));
+        }
+
     }
 }
 

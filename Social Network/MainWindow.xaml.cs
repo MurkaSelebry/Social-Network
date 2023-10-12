@@ -7,15 +7,26 @@ using System.Windows.Media;
 
 namespace Social_Network
 {
+   public class Test
+   {
+       public Visibility visibilityLogin = Visibility.Visible;
+       public Visibility visibilityContacts = Visibility.Visible;
+       public Visibility visibilityAddFriend = Visibility.Visible;
+       public Visibility visibilityChat = Visibility.Visible;
+       public User user2 = new User("user2", "password2", "User 2");
+       public User user3 = new User("user3", "password3", "User 3");
+        public bool isAuth = true;
+
+   }
     public partial class MainWindow : Window
     {
         private Dictionary<string, User> users = new Dictionary<string, User>();
         private User currentUser;
         private User selectedFriend;
 
+
         public MainWindow()
         {
-            InitializeComponent();
             InitializeComponent();
 
             // Создаем тестовых пользователей
