@@ -5,8 +5,267 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Social_Network"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Messenger" Height="550" Width="400" MaxHeight="900" MaxWidth="800" MinHeight="450" MinWidth="400" Background="#222" Foreground="#f6f6f6">
+    <Window.Resources>
+        <Style x:Key="Screen">
+            <Style.Setters>
+                <Setter Property="Border.Visibility" Value="Hidden" />
+                <Setter Property="Border.Background" Value="#151515" />
+            </Style.Setters>
+        </Style>
 
+        <Style x:Key="LoginPanel">
+            <Style.Setters>
+                <Setter Property="StackPanel.Orientation" Value="Vertical" />
+                <Setter Property="StackPanel.VerticalAlignment" Value="Center" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="TextBoxBase">
+            <Style.Setters>
+                <Setter Property="TextBox.Background" Value="#333" />
+                <Setter Property="TextBox.Foreground" Value="#f6f6f6" />
+                <Setter Property="TextBox.Margin" Value="5"/>
+                <Setter Property="TextBox.Padding" Value="15 10"/>
+                <Setter Property="TextBox.HorizontalAlignment" Value="Center" />
+                <Setter Property="TextBox.Width" Value="250" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="MessageBox" BasedOn="{StaticResource TextBoxBase}" >
+            <Style.Setters>
+                <Setter Property="TextBox.HorizontalAlignment" Value="Stretch" />
+                <Setter Property="TextBox.Width" Value="Auto" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="TextBlockBase">
+            <Style.Setters>
+                <Setter Property="TextBlock.Padding" Value="5"/>
+                <Setter Property="TextBlock.Margin" Value="5" />
+                <Setter Property="TextBlock.Foreground" Value="#f6f6f6" />
+                <Setter Property="TextBlock.FontSize" Value="14" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="HeaderBlock" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                <Setter Property="TextBlock.FontSize" Value="18" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="WarningBlock" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="TextBlock.Foreground" Value="Red" />
+                <Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="ButtonBase" >
+            <Style.Setters>
+                <Setter Property="Button.Background" Value="#333" />
+                <Setter Property="Button.Foreground" Value="#f6f6f6" />
+                <Setter Property="Button.Margin" Value="5"/>
+                <Setter Property="Button.Padding" Value="50 10"/>
+                <Setter Property="Button.HorizontalAlignment" Value="Center" />
+                <Setter Property="Button.FontSize" Value="14" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="NavButton" BasedOn="{StaticResource ButtonBase}">
+            <Style.Setters>
+                <Setter Property="Button.Padding" Value="2"/>
+                <Setter Property="Button.HorizontalAlignment" Value="Stretch" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="ContactsList" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="ListBox.Background" Value="#151515"/>
+                <Setter Property="ListBox.BorderThickness" Value="0"/>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="ContactImage" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="ContactName" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="TextBlock.HorizontalAlignment" Value="Left"/>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="HeaderBorder">
+            <Style.Setters>
+                <Setter Property="Border.Background" Value="#222" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="MessageBorder">
+            <Style.Setters>
+                <Setter Property="Border.Background" Value="#555" />
+                <Setter Property="Border.CornerRadius" Value="13" />
+                <Setter Property="Border.MinWidth" Value="100" />
+                <Setter Property="Border.MaxWidth" Value="300" />
+                <Setter Property="Border.Padding" Value="2" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="MessageText" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                <Setter Property="TextBlock.Margin" Value="0" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="MessageDate" BasedOn="{StaticResource TextBlockBase}">
+            <Style.Setters>
+                <Setter Property="TextBlock.HorizontalAlignment" Value="Right" />
+                <Setter Property="TextBlock.FontSize" Value="8" />
+                <Setter Property="TextBlock.Margin" Value="0" />
+            </Style.Setters>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Border Style="{StaticResource Screen}" Name="LoginScreen" Visibility="Visible">
+            <StackPanel Style="{StaticResource LoginPanel}">
+                <TextBlock Text="Login" Style="{StaticResource HeaderBlock}" />
+                <TextBox Style="{StaticResource TextBoxBase}" Name="LoginBox" />
+                <PasswordBox Style="{StaticResource TextBoxBase}" Name="PasswordBox"/>
+                <Button Content="Enter" Style="{StaticResource ButtonBase}" Name="LoginButton" Click="LoginButton_Click" IsDefault="True"/>
+                <TextBlock Text="" Name="LoginMessageBlock" Style="{StaticResource WarningBlock}" Visibility="Hidden"/>
+            </StackPanel>
+        </Border>
+
+        <Border Name="ContactsScreen" Style="{StaticResource Screen}">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition Height="50" />
+
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource HeaderBorder}">
+                    <TextBlock Style="{StaticResource HeaderBlock}" Text="Contacts" VerticalAlignment="Center"/>
+                </Border>
+
+
+                <Border Grid.Row="1" >
+                    <Button Content="Добавить в друзья" Style="{StaticResource ButtonBase}" Name="AddFriendButton" Click="AddFriendButton_Click"/>
+                </Border>
+                <Border Grid.Row="3" >
+                    <Button Content="Выйти" Style="{StaticResource ButtonBase}" Name="BackLogin" Click="BackLogin_Click"/>
+                </Border>
+
+                <Border Grid.Row="2">
+                    <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" 
+								Style="{StaticResource ContactsList}" Name="ContactsList" SelectionChanged="ContactsList_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <ListBoxItem>
+                                    <DockPanel LastChildFill="True">
+                                        <Image Style="{StaticResource ContactImage}" DockPanel.Dock="Left"></Image>
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource ContactName}" DockPanel.Dock="Right"/>
+                                    </DockPanel>
+                                </ListBoxItem>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+        
+            </Grid>
+
+        </Border>
+        <Border Name="AddFriendScreen" Style="{StaticResource Screen}" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Добавление в друзья" Style="{StaticResource HeaderBlock}" Grid.Row="0" HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Введите Username пользователя для добавления в друзья:" Style="{StaticResource TextBlockBase}" Grid.Row="1" HorizontalAlignment="Center"/>
+
+                <TextBox Name="SearchUsernameBox" Style="{StaticResource TextBoxBase}"  Grid.Row="2" HorizontalAlignment="Center"/>
+
+                <Button Content="Поиск" Style="{StaticResource ButtonBase}" Click="SearchFriendButton_Click" Grid.Row="3" HorizontalAlignment="Center"/>
+
+                <TextBlock Name="SearchErrorMessage" Style="{StaticResource WarningBlock}" Visibility="Collapsed" Grid.Row="4" HorizontalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <Border Name="ChatScreen" Style="{StaticResource Screen}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource HeaderBorder}">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Style="{StaticResource NavButton}" Grid.Column="0" Name="BackButton" Content="←" Click="BackButton_Click"/>
+
+                        <TextBlock Style="{StaticResource HeaderBlock}" Text="" VerticalAlignment="Center" Name="ChatName" Grid.Column="1"/>
+
+
+                    </Grid>
+
+                </Border>
+
+                <Border Grid.Row="1">
+                    <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" 
+							 Style="{StaticResource ContactsList}" Name="MessagesList" Focusable="False"
+							 HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <ListBoxItem>
+                                    <Border Style="{StaticResource MessageBorder}" HorizontalAlignment="{Binding Alignment}">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding Text}" Style="{StaticResource MessageText}"/>
+                                            <TextBlock Text="{Binding Date}" Style="{StaticResource MessageDate}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ListBoxItem>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource HeaderBorder}">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Name="MessageBox" Style="{StaticResource MessageBox}" Grid.Column="0"/>
+
+                        <Button Style="{StaticResource NavButton}" Grid.Column="1" Name="SendButton" Content="→" Click="SendButton_Click"/>
+
+
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
